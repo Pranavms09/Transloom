@@ -4,13 +4,13 @@
 // 2. Google Authentication
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA4axiff2ZOTPllP4wzwf7G4IRBvZka6EA",
-  authDomain: "transloom-dec35.firebaseapp.com",
-  projectId: "transloom-dec35",
-  storageBucket: "transloom-dec35.firebasestorage.app",
-  messagingSenderId: "997801282488",
-  appId: "1:997801282488:web:944e429e0eb12ef69d5d4d",
-  measurementId: "G-11BMER81LM",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
