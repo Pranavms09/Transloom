@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TransLoom - Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "var(--background)",
+              foreground: "var(--foreground)",
+              card: "var(--card)",
+              border: "var(--border)",
+              sidebar: "var(--sidebar)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body
+    class="flex h-screen overflow-hidden dark bg-background text-foreground"
+  >
+    <!-- Sidebar -->
+    <aside
+      id="sidebar"
+      class="bg-sidebar text-foreground border-r border-border transition-all duration-300 w-64 flex flex-col h-full overflow-y-auto"
+    >
+      <div
+        class="flex items-center justify-between h-16 min-h-[4rem] px-4 border-b border-border sticky top-0 bg-sidebar z-10"
+      >
+        <div id="sidebar-logo" class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center"
+            style="
+              background: linear-gradient(to bottom right, #5555ff, #10b981);
+            "
+          >
+            <i data-lucide="languages" class="text-white w-5 h-5"></i>
+          </div>
+          <span class="font-bold text-lg tracking-tight">TransLoom</span>
+        </div>
+        <button
+          id="toggle-sidebar"
+          class="p-1 hover:bg-gray-800 rounded-lg transition-colors"
+        >
+          <i data-lucide="x" id="sidebar-icon"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="p-4 space-y-1 flex-1 text-sm font-medium">
+        <a
+          href="dashboard.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-800 text-white"
+        >
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span class="sidebar-text">Dashboard</span>
+        </a>
+        <a
+          href="projects.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="folder-open" class="w-5 h-5"></i>
+          <span class="sidebar-text">Projects</span>
+        </a>
+        <a
+          href="projects.html?new=true"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span class="sidebar-text text-gray-300">New Project</span>
+        </a>
+        <div class="my-4 border-t border-border"></div>
+        <a
+          href="workspace.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="split-square-horizontal" class="w-5 h-5"></i>
+          <span class="sidebar-text">Translation Workspace</span>
+        </a>
+        <a
+          href="memory.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="database" class="w-5 h-5"></i>
+          <span class="sidebar-text">Translation Memory</span>
+        </a>
+        <a
+          href="glossary.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="book-a" class="w-5 h-5"></i>
+          <span class="sidebar-text">Glossary</span>
+        </a>
+        <a
+          href="style-profiles.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="paintbrush" class="w-5 h-5"></i>
+          <span class="sidebar-text">Style Profiles</span>
+        </a>
+        <div class="my-4 border-t border-border"></div>
+        <a
+          href="validation.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="shield-alert" class="w-5 h-5"></i>
+          <span class="sidebar-text">Validation Reports</span>
+        </a>
+        <a
+          href="review.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="check-square" class="w-5 h-5"></i>
+          <span class="sidebar-text">Review Queue</span>
+        </a>
+        <a
+          href="analytics.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+          <span class="sidebar-text">Analytics</span>
+        </a>
+        <div class="my-4 border-t border-border"></div>
+        <a
+          href="settings.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          <span class="sidebar-text">Settings</span>
+        </a>
+        <a
+          href="billing.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+        >
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span class="sidebar-text">Billing</span>
+        </a>
+        <a
+          href="help.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition pb-6"
+        >
+          <i data-lucide="help-circle" class="w-5 h-5"></i>
+          <span class="sidebar-text">Help / Documentation</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-auto bg-background flex flex-col">
+      <!-- Topbar -->
+      <header
+        class="border-b border-border bg-card h-16 min-h-[4rem] flex items-center justify-between px-8"
+      >
+        <h1 class="text-xl font-bold flex items-center gap-2">
+          <i data-lucide="layout-dashboard" class="text-blue-500 w-5 h-5"></i>
+          Dashboard
+        </h1>
+
+        <div class="flex items-center gap-4">
+          <!-- Theme Toggle -->
+          <button
+            id="toggle-theme"
+            class="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+            aria-label="Toggle theme"
+          >
+            <i data-lucide="moon" id="theme-icon" class="text-gray-400"></i>
+          </button>
+
+          <!-- User Profile Dropdown Simulation -->
+          <div class="flex items-center gap-3 border-l border-border pl-4">
+            <div class="flex flex-col text-right">
+              <span id="nav-user-name" class="text-sm font-medium"
+                >Loading User...</span
+              >
+              <span class="text-xs text-gray-500">Administrator</span>
+            </div>
+            <div
+              id="nav-user-avatar"
+              class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold bg-cover bg-center"
+            >
+              <i data-lucide="user" class="w-5 h-5"></i>
+            </div>
+            <button
+              id="logout-btn"
+              class="ml-2 p-2 text-gray-400 hover:text-red-400 transition"
+              title="Logout"
+            >
+              <i data-lucide="log-out" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content Area -->
+      <div class="flex-1 overflow-auto p-8">
+        <div class="space-y-6 max-w-7xl mx-auto">
+          <div>
+            <h2 class="text-3xl font-bold tracking-tight mb-2">
+              Welcome back!
+            </h2>
+            <p class="text-gray-400">
+              Here's an overview of your AI Translation Studio operations.
+            </p>
+          </div>
+
+          <!-- Metrics -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+            id="dashboard-metrics"
+          >
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-sm font-medium text-gray-400">Total Projects</h3>
+              <p class="text-3xl font-bold mt-2" id="stat-projects">0</p>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-sm font-medium text-gray-400">
+                Segments Translated
+              </h3>
+              <p
+                class="text-3xl font-bold mt-2 text-blue-500"
+                id="stat-segments"
+              >
+                0
+              </p>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-sm font-medium text-gray-400">TM Usage Rate</h3>
+              <p class="text-3xl font-bold mt-2 text-green-500" id="stat-tm">
+                0%
+              </p>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-sm font-medium text-gray-400">Words Processed</h3>
+              <p class="text-3xl font-bold mt-2" id="stat-words">0</p>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-semibold mb-1">Project Status</h3>
+              <p class="text-sm text-gray-400 mb-4">
+                Current distribution of documents
+              </p>
+              <div style="height: 300px; position: relative">
+                <canvas id="pieChart"></canvas>
+              </div>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-semibold mb-1">
+                Translation Memory Leverage
+              </h3>
+              <p class="text-sm text-gray-400 mb-4">
+                Historical match distribution
+              </p>
+              <div style="height: 300px; position: relative">
+                <canvas id="barChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- External Logic -->
+    <script src="script.js"></script>
+    <script type="module">
+      import { initializeAuthProtection } from "./auth.js";
+      initializeAuthProtection();
+    </script>
+  </body>
+</html>

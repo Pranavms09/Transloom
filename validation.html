@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TransLoom - Validation Reports</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "var(--background)",
+              foreground: "var(--foreground)",
+              card: "var(--card)",
+              border: "var(--border)",
+              sidebar: "var(--sidebar)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+
+  <body
+    class="flex h-screen overflow-hidden dark bg-background text-foreground"
+  >
+    <!-- Sidebar Template -->
+    <aside
+      id="sidebar"
+      class="bg-sidebar text-foreground border-r border-border transition-all duration-300 w-64 flex flex-col h-full overflow-y-auto hidden md:flex"
+    >
+      <div
+        class="flex items-center justify-between h-16 min-h-[4rem] px-4 border-b border-border sticky top-0 bg-sidebar z-10"
+      >
+        <div id="sidebar-logo" class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center"
+            style="
+              background: linear-gradient(to bottom right, #5555ff, #10b981);
+            "
+          >
+            <i data-lucide="languages" class="text-white w-5 h-5"></i>
+          </div>
+          <span class="font-bold text-lg tracking-tight">TransLoom</span>
+        </div>
+      </div>
+
+      <nav class="p-4 space-y-1 flex-1 text-sm font-medium">
+        <a
+          href="dashboard.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span class="sidebar-text">Dashboard</span></a
+        >
+        <a
+          href="projects.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="folder-open" class="w-5 h-5"></i>
+          <span class="sidebar-text">Projects</span></a
+        >
+        <div class="my-4 border-t border-border"></div>
+        <a
+          href="workspace.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="split-square-horizontal" class="w-5 h-5"></i>
+          <span class="sidebar-text">Translation Workspace</span></a
+        >
+        <a
+          href="memory.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="database" class="w-5 h-5"></i>
+          <span class="sidebar-text">Translation Memory</span></a
+        >
+        <a
+          href="glossary.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="book-a" class="w-5 h-5"></i>
+          <span class="sidebar-text">Glossary</span></a
+        >
+        <a
+          href="style-profiles.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="paintbrush" class="w-5 h-5"></i>
+          <span class="sidebar-text">Style Profiles</span></a
+        >
+        <div class="my-4 border-t border-border"></div>
+        <a
+          href="validation.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-800 text-white"
+          ><i data-lucide="shield-alert" class="w-5 h-5"></i>
+          <span class="sidebar-text">Validation Reports</span></a
+        >
+        <a
+          href="review.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="check-square" class="w-5 h-5"></i>
+          <span class="sidebar-text">Review Queue</span></a
+        >
+        <a
+          href="analytics.html"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition"
+          ><i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+          <span class="sidebar-text">Analytics</span></a
+        >
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-auto bg-background flex flex-col relative">
+      <header
+        class="border-b border-border bg-card h-16 min-h-[4rem] flex items-center justify-between px-8"
+      >
+        <h1 class="text-xl font-bold flex items-center gap-2">
+          <i data-lucide="shield-alert" class="text-red-500 w-5 h-5"></i>
+          Validation Reports
+        </h1>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-3 border-border pl-4">
+            <div
+              id="nav-user-avatar"
+              class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white"
+            >
+              <i data-lucide="user" class="w-5 h-5"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="flex-1 overflow-auto p-8 max-w-7xl mx-auto w-full">
+        <div
+          class="mb-8 border-b border-border pb-6 flex justify-between items-end"
+        >
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight">
+              Source Quality Detection
+            </h2>
+            <p class="text-gray-400 text-sm mt-1">
+              Aggregated list of common syntactic errors identified dynamically
+              across active projects.
+            </p>
+          </div>
+          <button
+            id="scan-now"
+            class="bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg px-4 py-2 transition flex items-center gap-2 text-sm"
+          >
+            <i data-lucide="scan-search" class="w-4 h-4"></i> Run System Scan
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div
+            class="bg-card border border-border p-6 rounded-xl flex items-center gap-4"
+          >
+            <div class="bg-red-500/20 text-red-500 p-3 rounded-lg">
+              <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold" id="metric-high">0</h3>
+              <p class="text-sm text-gray-500">High Severity</p>
+            </div>
+          </div>
+          <div
+            class="bg-card border border-border p-6 rounded-xl flex items-center gap-4"
+          >
+            <div class="bg-yellow-500/20 text-yellow-500 p-3 rounded-lg">
+              <i data-lucide="alert-circle" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold" id="metric-med">0</h3>
+              <p class="text-sm text-gray-500">Medium Severity</p>
+            </div>
+          </div>
+          <div
+            class="bg-card border border-border p-6 rounded-xl flex items-center gap-4"
+          >
+            <div class="bg-blue-500/20 text-blue-500 p-3 rounded-lg">
+              <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold" id="metric-low">0</h3>
+              <p class="text-sm text-gray-500">Low Severity</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
+        >
+          <table class="w-full text-left">
+            <thead
+              class="bg-gray-900 border-b border-border text-xs font-bold text-gray-400 uppercase tracking-wider"
+            >
+              <tr>
+                <th class="p-4 w-1/12">Severity</th>
+                <th class="p-4 w-2/12">Issue Type</th>
+                <th class="p-4 w-6/12">Segment Content (Target)</th>
+                <th class="p-4 w-2/12">Project</th>
+                <th class="p-4 w-1/12 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="val-table-body" class="divide-y divide-border">
+              <!-- JS Populates issues via parsing validateSegment() locally on load -->
+            </tbody>
+          </table>
+          <div id="empty-state" class="py-12 text-center text-gray-500 hidden">
+            <i
+              data-lucide="shield-check"
+              class="w-12 h-12 mx-auto mb-3 opacity-20 text-green-500"
+            ></i>
+            <p class="text-lg">Passed Static Analysis</p>
+            <p class="text-sm mt-1">
+              No severe warnings found inside active translated segments.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { initializeAuthProtection } from "./auth.js";
+      import {
+        fetchProjects,
+        validateSegment,
+        saveProjects,
+      } from "./transloom.js";
+      initializeAuthProtection();
+
+      function runScan() {
+        const body = document.getElementById("val-table-body");
+        const empty = document.getElementById("empty-state");
+        body.innerHTML = "";
+
+        let cHigh = 0;
+        let cMed = 0;
+        let cLow = 0;
+        let issuesFound = false;
+
+        const projects = fetchProjects();
+
+        projects.forEach((proj, pIdx) => {
+          proj.segments.forEach((seg, sIdx) => {
+            if (!seg.target) return; // Skip untranslated
+
+            // Uses the core logic parsing rules natively!
+            const issues = validateSegment(
+              seg.target.replace(/<[^>]*>?/gm, ""),
+            );
+
+            issues.forEach((i) => {
+              issuesFound = true;
+              if (i.severity === "High") cHigh++;
+              if (i.severity === "Medium") cMed++;
+              if (i.severity === "Low") cLow++;
+
+              const sevStyle =
+                i.severity === "High"
+                  ? "text-red-400 bg-red-900/40 border-red-800"
+                  : i.severity === "Medium"
+                    ? "text-yellow-400 bg-yellow-900/40 border-yellow-800"
+                    : "text-blue-400 bg-blue-900/40 border-blue-800";
+
+              const r = document.createElement("tr");
+              r.className = "hover:bg-gray-900/50 transition";
+              r.innerHTML = `
+                      <td class="p-4"><span class="px-2 py-1 border text-[10px] uppercase font-bold rounded ${sevStyle}">${i.severity}</span></td>
+                      <td class="p-4 font-medium text-sm text-gray-300 whitespace-nowrap">${i.type}</td>
+                      <td class="p-4 text-sm text-gray-400"><div class="line-clamp-2">${seg.target.replace(/<[^>]*>?/gm, "")}</div><p class="text-[10px] mt-1 text-gray-600">SEG ${sIdx + 1}</p></td>
+                      <td class="p-4 text-sm text-gray-300 line-clamp-1">${proj.name}</td>
+                      <td class="p-4 text-right"><button class="bg-gray-800 hover:bg-gray-700 text-xs px-3 py-1.5 rounded transition font-medium" onclick="window.location.href='workspace.html?id=${proj.id}'">Suggest Fix</button></td>
+                    `;
+              body.appendChild(r);
+            });
+          });
+        });
+
+        document.getElementById("metric-high").textContent = cHigh;
+        document.getElementById("metric-med").textContent = cMed;
+        document.getElementById("metric-low").textContent = cLow;
+
+        if (!issuesFound) {
+          empty.classList.remove("hidden");
+        } else {
+          empty.classList.add("hidden");
+        }
+      }
+
+      document.getElementById("scan-now").addEventListener("click", runScan);
+
+      // Auto run randomly delayed on load to simulate a scan
+      setTimeout(() => {
+        runScan();
+      }, 500);
+    </script>
+  </body>
+</html>
