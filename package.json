@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "TransLoom AI Translation Studio MVP",
   "scripts": {
-    "start": "npx serve ."
+    "dev": "npx serve ."
   },
   "dependencies": {
     "firebase": "^12.10.0"
