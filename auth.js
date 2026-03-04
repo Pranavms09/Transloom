@@ -120,3 +120,5 @@ export function initializeAuthProtection() {
     }
   });
 }
+
+export { auth, updateProfile };
