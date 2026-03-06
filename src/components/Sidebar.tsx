@@ -1,132 +1,175 @@
-import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import {
-  Languages,
-  X,
   LayoutDashboard,
-  FolderOpen,
-  PlusCircle,
-  SplitSquareHorizontal,
-  Database,
-  BookA,
-  Paintbrush,
-  ShieldAlert,
-  CheckSquare,
-  BarChart2,
-  Settings,
-  CreditCard,
+  Upload,
+  Layers,
+  Clock,
+  Network,
+  ListTree,
+  ShieldCheck,
+  AlertTriangle,
+  Lightbulb,
+  FileText,
+  DollarSign,
+  Users,
+  Bot,
   HelpCircle,
+  BarChart2,
+  TrendingUp,
+  Activity,
+  Settings,
+  BookOpen,
+  LifeBuoy,
+  FileJson,
 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
-export function Sidebar({
-  isOpen,
-  toggleSidebar,
-}: {
+interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
-}) {
+}
+
+export function Sidebar({ isOpen }: SidebarProps) {
   const location = useLocation();
 
-  const getLinkClass = (path: string, exact: boolean = false) => {
-    const isActive = exact
-      ? location.pathname === path
-      : location.pathname.startsWith(path);
-
-    // Extract base logic from original html
-    const baseClass = "flex items-center gap-3 px-3 py-2 rounded-lg transition";
-    if (isActive) {
-      return `${baseClass} bg-gray-800 text-white`;
-    }
-    return `${baseClass} text-gray-400 hover:bg-gray-800 hover:text-white`;
-  };
+  const navGroups = [
+    {
+      label: "Main",
+      links: [{ href: "/dashboard", icon: LayoutDashboard, text: "Dashboard" }],
+    },
+    {
+      label: "File Processing",
+      links: [
+        { href: "/upload", icon: Upload, text: "Upload EDI File" },
+        { href: "/upload/batch", icon: Layers, text: "Batch Upload" },
+        { href: "/recent", icon: Clock, text: "Recent Files" },
+      ],
+    },
+    {
+      label: "File Explorer",
+      links: [
+        {
+          href: "/explorer/parsed",
+          icon: FileJson,
+          text: "Parsed Structure Viewer",
+        },
+        { href: "/explorer/tree", icon: ListTree, text: "Segment Tree Viewer" },
+      ],
+    },
+    {
+      label: "Validation",
+      links: [
+        { href: "/validation", icon: ShieldCheck, text: "Validation Results" },
+        {
+          href: "/validation/errors",
+          icon: AlertTriangle,
+          text: "Error Reports",
+        },
+        {
+          href: "/validation/suggestions",
+          icon: Lightbulb,
+          text: "Fix Suggestions",
+        },
+      ],
+    },
+    {
+      label: "Transaction Insights",
+      links: [
+        { href: "/insights/837", icon: FileText, text: "837 Claims Summary" },
+        {
+          href: "/insights/835",
+          icon: DollarSign,
+          text: "835 Payment Summary",
+        },
+        { href: "/insights/834", icon: Users, text: "834 Member Enrollment" },
+      ],
+    },
+    {
+      label: "AI Assistant",
+      links: [
+        { href: "/ai/explain", icon: Bot, text: "AI Error Explanation" },
+        { href: "/ai/ask", icon: HelpCircle, text: "Ask About File" },
+      ],
+    },
+    {
+      label: "Analytics",
+      links: [
+        {
+          href: "/analytics/errors",
+          icon: BarChart2,
+          text: "Error Statistics",
+        },
+        {
+          href: "/analytics/trends",
+          icon: TrendingUp,
+          text: "Validation Trends",
+        },
+        {
+          href: "/analytics/metrics",
+          icon: Activity,
+          text: "Processing Metrics",
+        },
+      ],
+    },
+    {
+      label: "System",
+      links: [
+        { href: "/settings", icon: Settings, text: "Settings" },
+        { href: "/docs", icon: BookOpen, text: "Documentation" },
+        { href: "/help", icon: LifeBuoy, text: "Help" },
+      ],
+    },
+  ];
 
   return (
     <aside
-      className={`bg-sidebar text-foreground border-r border-border transition-all duration-300 flex flex-col h-full overflow-y-auto ${
-        isOpen ? "w-64" : "w-20"
-      }`}
+      className={cn(
+        "bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 transition-all duration-300 flex flex-col h-full overflow-y-auto hidden md:flex text-slate-600 dark:text-slate-300",
+        isOpen ? "w-[260px]" : "w-0 overflow-hidden border-none",
+      )}
     >
-      <div className="flex items-center justify-between h-16 min-h-[4rem] px-4 border-b border-border sticky top-0 bg-sidebar z-10">
-        <div className="flex items-center gap-2 overflow-hidden">
-          <div
-            className="w-8 h-8 flex-shrink-0 rounded-lg flex items-center justify-center"
-            style={{
-              background: "linear-gradient(to bottom right, #5555ff, #10b981)",
-            }}
-          >
-            <Languages className="text-white w-5 h-5" />
+      <div className="flex items-center justify-between h-16 min-h-[4rem] px-4 border-b border-gray-200 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10 transition-colors duration-300">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-600">
+            <Network className="text-white w-5 h-5" />
           </div>
-          {isOpen && (
-            <span className="font-bold text-lg tracking-tight whitespace-nowrap">
-              TransLoom
-            </span>
-          )}
+          <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
+            ClaimLens
+          </span>
         </div>
-        <button
-          onClick={toggleSidebar}
-          className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
-        >
-          <X
-            className={`w-5 h-5 transition-transform ${!isOpen && "rotate-180"}`}
-          />
-        </button>
       </div>
 
-      <nav className="p-4 space-y-1 flex-1 text-sm font-medium">
-        <Link to="/dashboard" className={getLinkClass("/dashboard", true)}>
-          <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Dashboard</span>}
-        </Link>
-        <Link to="/projects" className={getLinkClass("/projects", true)}>
-          <FolderOpen className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Projects</span>}
-        </Link>
-        <Link to="/projects/new" className={getLinkClass("/projects/new")}>
-          <PlusCircle className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span className="text-gray-300">New Project</span>}
-        </Link>
-        <div className="my-4 border-t border-border"></div>
-        <Link to="/workspace" className={getLinkClass("/workspace")}>
-          <SplitSquareHorizontal className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Translation Workspace</span>}
-        </Link>
-        <Link to="/memory" className={getLinkClass("/memory")}>
-          <Database className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Translation Memory</span>}
-        </Link>
-        <Link to="/glossary" className={getLinkClass("/glossary")}>
-          <BookA className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Glossary</span>}
-        </Link>
-        <Link to="/style-profiles" className={getLinkClass("/style-profiles")}>
-          <Paintbrush className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Style Profiles</span>}
-        </Link>
-        <div className="my-4 border-t border-border"></div>
-        <Link to="/validation" className={getLinkClass("/validation")}>
-          <ShieldAlert className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Validation Reports</span>}
-        </Link>
-        <Link to="/review" className={getLinkClass("/review")}>
-          <CheckSquare className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Review Queue</span>}
-        </Link>
-        <Link to="/analytics" className={getLinkClass("/analytics")}>
-          <BarChart2 className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Analytics</span>}
-        </Link>
-        <div className="my-4 border-t border-border"></div>
-        <Link to="/settings" className={getLinkClass("/settings")}>
-          <Settings className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Settings</span>}
-        </Link>
-        <Link to="/billing" className={getLinkClass("/billing")}>
-          <CreditCard className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Billing</span>}
-        </Link>
-        <Link to="/help" className={`${getLinkClass("/help")} pb-6`}>
-          <HelpCircle className="w-5 h-5 flex-shrink-0" />
-          {isOpen && <span>Help / Documentation</span>}
-        </Link>
+      <nav className="p-4 space-y-6 flex-1 text-sm font-medium">
+        {navGroups.map((group, i) => (
+          <div key={i}>
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 ml-2">
+              {group.label}
+            </div>
+            <div className="space-y-1">
+              {group.links.map((link) => {
+                const isActive =
+                  (location.pathname.startsWith(link.href) &&
+                    link.href !== "/dashboard") ||
+                  location.pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200",
+                      isActive
+                        ? "bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400"
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white",
+                    )}
+                  >
+                    <link.icon className="w-4 h-4" />
+                    <span className="sidebar-text truncate">{link.text}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
     </aside>
   );

@@ -66,7 +66,7 @@ export function Settings() {
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <button
@@ -91,7 +91,7 @@ export function Settings() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <button
@@ -112,7 +112,7 @@ export function Settings() {
               onClick={toggleTheme}
               className="bg-gray-800 border border-gray-700 p-2 rounded-lg hover:bg-gray-700 transition"
             >
-              <Moon className="text-white w-5 h-5" />
+              <Moon className="text-slate-900 dark:text-slate-100 w-5 h-5" />
             </button>
           </div>
         </div>
@@ -126,13 +126,13 @@ export function Settings() {
           <div className="flex gap-4">
             <button
               onClick={handleExportData}
-              className="bg-gray-800 border border-gray-700 text-white font-semibold rounded-lg px-4 py-2 hover:bg-gray-700 transition flex items-center gap-2"
+              className="bg-gray-800 border border-gray-700 text-slate-900 dark:text-slate-100 font-semibold rounded-lg px-4 py-2 hover:bg-gray-700 transition flex items-center gap-2"
             >
               <Download className="w-4 h-4" /> Export All Data
             </button>
             <button
               onClick={handleClearData}
-              className="bg-red-600 text-white font-semibold rounded-lg px-4 py-2 hover:bg-red-500 transition flex items-center gap-2"
+              className="bg-red-600 text-slate-900 dark:text-slate-100 font-semibold rounded-lg px-4 py-2 hover:bg-red-500 transition flex items-center gap-2"
             >
               <Trash2 className="w-4 h-4" /> Clear Local Data
             </button>

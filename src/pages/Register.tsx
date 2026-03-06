@@ -44,7 +44,7 @@ export function Register() {
 
   return (
     <div className="bg-background text-foreground h-screen flex items-center justify-center font-sans">
-      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-lg">
+      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none">
         <div className="text-center mb-8">
           <div
             className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center"
@@ -52,7 +52,7 @@ export function Register() {
               background: "linear-gradient(to bottom right, #5555ff, #10b981)",
             }}
           >
-            <UserPlus className="text-white w-6 h-6" />
+            <UserPlus className="text-slate-900 dark:text-slate-100 w-6 h-6" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
           <p className="text-gray-400 text-sm mt-2">
@@ -75,7 +75,7 @@ export function Register() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -93,7 +93,7 @@ export function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function Register() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               minLength={6}
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -131,7 +131,7 @@ export function Register() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
               minLength={6}
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -151,7 +151,7 @@ export function Register() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-blue-500 hover:text-blue-400 font-medium"
+            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 font-medium"
           >
             Log in
           </Link>

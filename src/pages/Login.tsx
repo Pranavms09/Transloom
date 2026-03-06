@@ -42,7 +42,7 @@ export function Login() {
 
   return (
     <div className="bg-background text-foreground h-screen flex items-center justify-center font-sans">
-      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-lg">
+      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none">
         <div className="text-center mb-8">
           <div
             className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center"
@@ -50,7 +50,7 @@ export function Login() {
               background: "linear-gradient(to bottom right, #5555ff, #10b981)",
             }}
           >
-            <Languages className="text-white w-6 h-6" />
+            <Languages className="text-slate-900 dark:text-slate-100 w-6 h-6" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
             Welcome to TransLoom
@@ -75,7 +75,7 @@ export function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -93,7 +93,7 @@ export function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -115,7 +115,7 @@ export function Login() {
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 bg-[#1a1a1c] border border-gray-700 text-white font-medium rounded-lg px-4 py-2 hover:bg-gray-800 transition"
+          className="w-full flex items-center justify-center gap-2 bg-[#1a1a1c] border border-gray-700 text-slate-900 dark:text-slate-100 font-medium rounded-lg px-4 py-2 hover:bg-gray-800 transition"
         >
           <Chrome className="w-4 h-4" />
           Google
@@ -125,7 +125,7 @@ export function Login() {
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-blue-500 hover:text-blue-400 font-medium"
+            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 font-medium"
           >
             Register here
           </Link>
