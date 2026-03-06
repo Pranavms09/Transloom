@@ -1,3 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-sidebar: var(--sidebar);
+}
+
 :root {
   --background: #ffffff;
   --foreground: #09090b;
@@ -17,21 +27,6 @@
   --sidebar-accent-foreground: #18181b;
   --sidebar-primary: #18181b;
   --sidebar-primary-foreground: #fafafa;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
 }
 
 .dark {
@@ -55,36 +50,17 @@ body {
   --sidebar-primary-foreground: #18181b;
 }
 
-.bg-card {
-  background-color: var(--card);
-}
-.border-border {
-  border-color: var(--border);
-}
-.text-muted-foreground {
-  color: var(--muted-foreground);
-}
-.bg-sidebar {
-  background-color: var(--sidebar);
-}
-.text-sidebar-foreground {
-  color: var(--sidebar-foreground);
-}
-.border-sidebar-border {
-  border-color: var(--sidebar-border);
-}
-.bg-sidebar-primary {
-  background-color: var(--sidebar-primary);
-}
-.text-sidebar-primary-foreground {
-  color: var(--sidebar-primary-foreground);
-}
-.hover\:bg-sidebar-accent:hover {
-  background-color: var(--sidebar-accent);
-}
-.hover\:text-sidebar-accent-foreground:hover {
-  color: var(--sidebar-accent-foreground);
-}
-.text-accent {
-  color: #5555ff;
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 }
