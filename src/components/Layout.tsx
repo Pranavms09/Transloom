@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
+import { MobileNav } from "./MobileNav";
 import { useAuth } from "../hooks/useAuth";
 import { LayoutDashboard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -72,8 +73,9 @@ export function Layout({
           isDark={isDark}
           actions={actions}
         />
-        <div className="flex-1 overflow-auto p-8">{children}</div>
+        <div className="flex-1 overflow-auto p-4 pb-24 md:p-8">{children}</div>
       </main>
+      <MobileNav />
     </div>
   );
 }

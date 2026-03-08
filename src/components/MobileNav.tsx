@@ -1,0 +1,71 @@
+import { Link, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Activity,
+  History,
+  Bot,
+  UploadCloud,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export function MobileNav() {
+  const location = useLocation();
+
+  const navItems = [
+    { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
+    { href: "/analysis", icon: Activity, label: "Analysis" },
+    { href: "/upload", isCenter: true },
+    { href: "/history", icon: History, label: "History" },
+    { href: "/ai", icon: Bot, label: "AI" },
+  ];
+
+  return (
+    <div className="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.5)] safe-area-bottom">
+      <div className="flex items-center justify-around h-16 relative px-2">
+        {navItems.map((item) => {
+          if (item.isCenter) {
+            // Elevated Center Button
+            return (
+              <div key="center-btn" className="relative flex flex-col items-center justify-center -top-6 w-16 mx-1">
+                <Link
+                  to={item.href}
+                  className="flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-full shadow-xl shadow-blue-500/40 text-white transform transition-transform active:scale-95 border-4 border-slate-50 dark:border-slate-950"
+                >
+                  <UploadCloud className="w-6 h-6" />
+                </Link>
+                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-1 absolute -bottom-4">
+                  Upload
+                </span>
+              </div>
+            );
+          }
+
+          const isActive =
+            (location.pathname.startsWith(item.href) &&
+              item.href !== "/dashboard") ||
+            location.pathname === item.href;
+
+          return (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={cn(
+                "flex flex-col items-center justify-center w-16 h-full gap-1 transition-colors",
+                isActive
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+              )}
+            >
+              {item.icon && (
+                <item.icon
+                  className={cn("w-5 h-5", isActive && "fill-blue-600/20")}
+                />
+              )}
+              <span className="text-[10px] font-semibold">{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
