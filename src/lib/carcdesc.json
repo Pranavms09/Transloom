@@ -1,0 +1,15 @@
+{
+  "CO45": "Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.",
+  "PR1": "Deductible Amount",
+  "PR2": "Coinsurance Amount",
+  "PR3": "Co-payment Amount",
+  "OA23": "The impact of prior payer(s) adjudication including payments and/or adjustments.",
+  "CO97": "The benefit for this service is included in the payment/allowance for another service/procedure that has already been adjudicated.",
+  "CO11": "The diagnosis is inconsistent with the procedure.",
+  "CO16": "Claim/service lacks information or has submission/billing error(s) which is needed for adjudication.",
+  "CO22": "This care may be covered by another payer per coordination of benefits.",
+  "CO24": "Charges are covered under a capitation agreement/managed care plan.",
+  "PRB15": "This service/procedure requires that a qualifying service/procedure be received and covered.",
+  "OA18": "Exact duplicate claim/service",
+  "COB13": "Previously paid. Payment for this claim/service may have been provided in a previous payment."
+}

@@ -1,148 +1,187 @@
 import { useState, useRef, useEffect } from "react";
 import { Layout } from "../components/Layout";
-import { Bot, Send, Sparkles, User } from "lucide-react";
+import { Bot, Send, Sparkles, User, Upload } from "lucide-react";
+import { useEDI } from "../contexts/EDIContext";
+import { askCopilot, ChatMessage } from "../lib/openaiClient";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface Message {
   role: "user" | "ai";
   content: string;
+  isLoading?: boolean;
+}
+
+const SUGGESTIONS = [
+  "What does the CLM segment mean?",
+  "Why is this claim rejected?",
+  "Explain the NPI Luhn check",
+  "What is an 835 remittance?",
+  "How do HL loops work in 837?",
+  "What does INS01 mean in 834?",
+];
+
+function ChatBubble({ msg }: { msg: Message }) {
+  const isUser = msg.role === "user";
+  return (
+    <div className={`flex items-start gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
+      <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
+        isUser ? "bg-blue-600 text-white" : "bg-gradient-to-br from-indigo-500 to-purple-600 text-white"
+      }`}>
+        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+      </div>
+      <div className={`max-w-[78%] p-4 rounded-2xl text-sm leading-relaxed ${
+        isUser
+          ? "bg-blue-600 text-white rounded-tr-none shadow shadow-blue-900/20"
+          : "bg-slate-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-none"
+      }`}>
+        {!isUser && <Sparkles className="w-3 h-3 text-purple-400 mb-2" />}
+        {msg.isLoading ? (
+          <span className="flex gap-1 items-center">
+            <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+            <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+            <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+          </span>
+        ) : (
+          <p className="whitespace-pre-wrap">{msg.content}</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export function AIAssistant() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "ai",
-      content:
-        "Hello! I am your ClaimLens Copilot. I've analyzed your most recent '837 Professional Claim' file which contains 1 Critical Error. How can I help you understand or resolve this today?",
-    },
-  ]);
-  const [input, setInput] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { parsedFile, validationResults } = useEDI();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const [messages, setMessages] = useState<Message[]>([{
+    role: "ai",
+    content: parsedFile
+      ? `Hello! I'm ClaimLens Copilot. I've analyzed your **${parsedFile.fileInfo.type}** file "${parsedFile.fileInfo.name}" (${parsedFile.fileInfo.segmentCount} segments, ${validationResults.filter(i => i.severity === "Critical").length} critical errors). Ask me anything about this file or EDI in general!`
+      : "Hello! I'm ClaimLens Copilot, your HIPAA X12 expert. Upload an EDI file and I can explain its structure, validate it, and answer any questions about healthcare EDI transactions.",
+  }]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (e: React.FormEvent) => {
+  // Pre-fill from validation "Explain" button
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q) {
+      setInput(q);
+      inputRef.current?.focus();
+    }
+  }, [searchParams]);
+
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const text = input.trim();
+    if (!text || isLoading) return;
 
-    const userMsg = input;
-    setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
     setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: text }]);
+    setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      let aiResponse =
-        "I have analyzed the segment. The error indicates missing data required by the HIPAA X12 implementation guidelines.";
+    // Add loading bubble
+    setMessages((prev) => [...prev, { role: "ai", content: "", isLoading: true }]);
 
-      if (userMsg.toLowerCase().includes("clm")) {
-        aiResponse =
-          "The **CLM** (Claim Information) segment is used to specify basic claim-level data. The Error `CLM02 (Total Claim Charge Amount) does not match sum of service line charges` means the total billed amount in Loop 2300 does not equal the arithmetic sum of the `SV102` (Line Item Charge Amount) elements across all 2400 Loops. You need to verify the math on the service lines.";
-      } else if (userMsg.toLowerCase().includes("nm1")) {
-        aiResponse =
-          "The **NM1** segment (Individual or Organizational Name) identifies a party by type of organization, name, and identification number. A common issue is a missing National Provider Identifier (NPI) in NM109 when NM108 is 'XX'.";
-      }
+    try {
+      // Build chat history for OpenAI (last 10 messages)
+      const chatHistory: ChatMessage[] = messages
+        .filter((m) => !m.isLoading)
+        .slice(-10)
+        .map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.content }));
+      chatHistory.push({ role: "user", content: text });
 
-      setMessages((prev) => [...prev, { role: "ai", content: aiResponse }]);
-    }, 1000);
+      const response = await askCopilot(chatHistory, parsedFile, validationResults);
+
+      setMessages((prev) => [
+        ...prev.filter((m) => !m.isLoading),
+        { role: "ai", content: response },
+      ]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev.filter((m) => !m.isLoading),
+        {
+          role: "ai",
+          content: `Failed to get response: ${(err as Error).message}. Please check your VITE_OPENAI_API_KEY in .env.local.`,
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendSuggestion = (text: string) => {
+    setInput(text);
+    inputRef.current?.focus();
   };
 
   return (
-    <Layout
-      title="AI Assistant"
-      icon={<Bot className="w-5 h-5 text-blue-500" />}
-    >
-      <div className="max-w-5xl mx-auto flex flex-col h-[calc(100vh-10rem)] bg-white dark:bg-slate-100 dark:bg-slate-800 border border-gray-200 dark:border-gray-300 dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden relative">
-        {/* Decorative Background */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl mix-blend-screen pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl mix-blend-screen pointer-events-none"></div>
+    <Layout title="AI Assistant" icon={<Bot className="w-5 h-5 text-blue-500" />}>
+      <div className="max-w-5xl mx-auto flex flex-col relative" style={{ height: "calc(100vh - 10rem)" }}>
+        {/* No file banner */}
+        {!parsedFile && (
+          <div className="mb-4 flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+            <Upload className="w-4 h-4 text-blue-500 flex-shrink-0" />
+            <p className="text-sm text-blue-700 dark:text-blue-300">
+              No EDI file loaded. <button onClick={() => navigate("/upload")} className="font-semibold underline hover:no-underline">Upload a file</button> for file-specific answers.
+            </p>
+          </div>
+        )}
 
-        {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar relative z-10">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex items-start gap-4 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
-            >
-              <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  msg.role === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gradient-to-br from-indigo-500 to-purple-600 text-slate-900 dark:text-slate-100"
-                }`}
+        <div className="flex-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl flex flex-col overflow-hidden shadow-xl relative">
+          {/* Background glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Chat messages */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-5 relative z-10">
+            {messages.map((msg, idx) => <ChatBubble key={idx} msg={msg} />)}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Suggestions */}
+          <div className="px-4 py-3 border-t border-gray-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hidden md:flex gap-2 overflow-x-auto relative z-10">
+            {SUGGESTIONS.map((s) => (
+              <button
+                key={s}
+                onClick={() => sendSuggestion(s)}
+                className="whitespace-nowrap bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs px-4 py-2 rounded-full border border-gray-200 dark:border-slate-700 transition"
               >
-                {msg.role === "user" ? (
-                  <User className="w-5 h-5" />
-                ) : (
-                  <Bot className="w-6 h-6" />
-                )}
-              </div>
-              <div
-                className={`max-w-[75%] p-4 rounded-2xl ${
-                  msg.role === "user"
-                    ? "bg-blue-600 text-white rounded-tr-none shadow-sm dark:shadow-none shadow-blue-900/20"
-                    : "bg-slate-100 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-slate-200 rounded-tl-none shadow-sm dark:shadow-none"
-                }`}
-              >
-                {msg.role === "ai" && (
-                  <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400 mb-2" />
-                )}
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                  {msg.content}
-                </p>
-              </div>
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
+                {s}
+              </button>
+            ))}
+          </div>
 
-        {/* Suggested Actions */}
-        <div className="px-6 pb-2 pt-4 border-t border-gray-200 dark:border-gray-300 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900 relative z-10 hidden md:flex gap-3 overflow-x-auto custom-scrollbar">
-          <button
-            onClick={() => setInput("What does the CLM segment mean?")}
-            className="whitespace-nowrap bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-4 py-2 rounded-full border border-gray-300 dark:border-slate-700 transition"
-          >
-            What does the CLM segment mean?
-          </button>
-          <button
-            onClick={() => setInput("Why is this claim rejected?")}
-            className="whitespace-nowrap bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-4 py-2 rounded-full border border-gray-300 dark:border-slate-700 transition"
-          >
-            Why is this claim rejected?
-          </button>
-          <button
-            onClick={() => setInput("Explain NM1 identification rules")}
-            className="whitespace-nowrap bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-4 py-2 rounded-full border border-gray-300 dark:border-slate-700 transition"
-          >
-            Explain NM1 identification rules
-          </button>
-        </div>
-
-        {/* Input Area */}
-        <div className="p-4 bg-slate-50 dark:bg-slate-900 relative z-10">
-          <form
-            onSubmit={handleSend}
-            className="flex items-center gap-3 bg-white dark:bg-slate-100 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 p-2 rounded-xl focus-within:border-blue-500 transition-colors shadow-inner"
-          >
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask ClaimLens Copilot to explain errors or segment rules..."
-              className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-slate-100 px-3 text-sm"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim()}
-              className="bg-blue-600 disabled:bg-slate-100 dark:bg-slate-800 disabled:text-slate-600 dark:text-slate-500 hover:bg-blue-500 text-white p-2 rounded-lg transition"
+          {/* Input */}
+          <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 relative z-10">
+            <form
+              onSubmit={handleSend}
+              className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 p-2 rounded-xl focus-within:border-blue-500 transition shadow-inner"
             >
-              <Send className="w-5 h-5" />
-            </button>
-          </form>
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about EDI segments, validation errors, HIPAA rules..."
+                className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-slate-100 px-3 text-sm placeholder:text-slate-400"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                className="bg-blue-600 disabled:bg-slate-200 dark:disabled:bg-slate-700 disabled:text-slate-400 hover:bg-blue-500 text-white p-2 rounded-lg transition"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </Layout>

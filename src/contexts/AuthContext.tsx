@@ -1,11 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-import { auth, onAuthStateChanged, signOut } from "../lib/firebase";
 
 interface AuthContextType {
   user: { id: string; name: string; email: string; photoURL?: string } | null;
   loading: boolean;
   logout: () => Promise<void>;
-  updateUserContext: () => void; // Trigger a manual refresh if needed
+  updateUserContext: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -16,36 +15,22 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthContextType["user"]>(null);
-  const [loading, setLoading] = useState(true);
+  // Use a mocked user for the ClaimLens MVP so Firebase isn't required to test it
+  const [user, setUser] = useState<AuthContextType["user"]>({
+    id: "mock-user-123",
+    name: "Demo User",
+    email: "demo@claimlens.com",
+  });
+  const [loading] = useState(false);
   const [refreshSeed, setRefreshSeed] = useState(0);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          id: firebaseUser.uid,
-          name:
-            firebaseUser.displayName || firebaseUser.email || "Unknown User",
-          email: firebaseUser.email || "",
-          photoURL: firebaseUser.photoURL || undefined,
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return unsubscribe;
+    // We already set user synchronously above so loading is false
   }, [refreshSeed]);
 
   const logout = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-    } catch (error) {
-      console.error("Logout Error", error);
-    }
+    // For demo purposes, we will just set user to null
+    setUser(null);
   };
 
   const updateUserContext = () => {

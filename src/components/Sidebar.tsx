@@ -21,6 +21,7 @@ import {
   BookOpen,
   LifeBuoy,
   FileJson,
+  RefreshCw
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -35,7 +36,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
   const navGroups = [
     {
       label: "Main",
-      links: [{ href: "/dashboard", icon: LayoutDashboard, text: "Dashboard" }],
+      links: [{ href: "/dashboard/batch", icon: LayoutDashboard, text: "Batch Dashboard" }],
     },
     {
       label: "File Processing",
@@ -82,6 +83,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
           text: "835 Payment Summary",
         },
         { href: "/insights/834", icon: Users, text: "834 Member Enrollment" },
+        { href: "/reconciliation", icon: RefreshCw, text: "Reconciliation" },
       ],
     },
     {

@@ -1,197 +1,155 @@
 import { Layout } from "../components/Layout";
-import { Users, UserPlus, UserMinus, UserCheck, Download } from "lucide-react";
+import { Users, Download, Upload, UserCheck, UserMinus } from "lucide-react";
+import { useEDI } from "../contexts/EDIContext";
+import { useNavigate } from "react-router-dom";
+import { export834CSV, exportJSON } from "../lib/exportUtils";
+import { Member834 } from "../lib/x12Parser";
 
-const mockMembers = [
-  {
-    id: "MEM-001",
-    name: "Sarah Jenkins",
-    relation: "Subscriber",
-    coverage: "Employee + Family",
-    start: "2023-01-01",
-    end: "2099-12-31",
-    status: "Active",
-  },
-  {
-    id: "MEM-002",
-    name: "David Jenkins",
-    relation: "Spouse",
-    coverage: "Employee + Family",
-    start: "2023-01-01",
-    end: "2099-12-31",
-    status: "Active",
-  },
-  {
-    id: "MEM-003",
-    name: "Emily Watson",
-    relation: "Subscriber",
-    coverage: "Employee Only",
-    start: "2023-08-01",
-    end: "2099-12-31",
-    status: "Added",
-  },
-  {
-    id: "MEM-004",
-    name: "Michael Chang",
-    relation: "Subscriber",
-    coverage: "Employee + One",
-    start: "2022-05-15",
-    end: "2023-08-15",
-    status: "Terminated",
-  },
-  {
-    id: "MEM-005",
-    name: "Lisa Chang",
-    relation: "Spouse",
-    coverage: "Employee + One",
-    start: "2022-05-15",
-    end: "2023-08-15",
-    status: "Terminated",
-  },
-];
+const RELATIONSHIP_LABEL: Record<string, string> = {
+  "18": "Self", "01": "Spouse", "19": "Child", "34": "Other Adult",
+  "G8": "Other Relationship", "15": "Stepchild", "17": "Grandchild",
+  "53": "Life Partner", "29": "Significant Other",
+};
+
+function GenderBadge({ gender }: { gender: string }) {
+  if (gender === "M") return <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 text-[10px] font-bold rounded border border-blue-300 dark:border-blue-800">M</span>;
+  if (gender === "F") return <span className="px-2 py-0.5 bg-pink-100 dark:bg-pink-900/40 text-pink-700 dark:text-pink-400 text-[10px] font-bold rounded border border-pink-300 dark:border-pink-800">F</span>;
+  return <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] font-bold rounded border border-gray-200 dark:border-slate-700">{gender || "–"}</span>;
+}
 
 export function Insights834() {
+  const { parsedFile } = useEDI();
+  const navigate = useNavigate();
+
+  const members: Member834[] = parsedFile?.memberLoops || [];
+  const isLoaded = !!parsedFile && parsedFile.fileInfo.type === "834";
+
+  const subscribers = members.filter((m) => m.subscriberIndicator === "Y");
+  const dependents = members.filter((m) => m.subscriberIndicator === "N");
+  const active = members.filter((m) => !m.termDate || m.termDate === "Active");
+
+  if (!isLoaded) {
+    return (
+      <Layout title="834 Member Enrollment" icon={<Users className="w-5 h-5 text-blue-500" />}>
+        <div className="max-w-7xl mx-auto w-full flex flex-col items-center justify-center h-[calc(100vh-16rem)] text-center">
+          <Users className="w-20 h-20 text-slate-300 dark:text-slate-700 mb-5" />
+          <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">No 834 File Loaded</h3>
+          <p className="text-slate-500 dark:text-slate-400 mb-6">
+            {parsedFile
+              ? `Loaded file is a ${parsedFile.fileInfo.type}, not an 834.`
+              : "Upload an 834 Benefit Enrollment file to see member details."}
+          </p>
+          <button
+            onClick={() => navigate("/upload")}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition"
+          >
+            <Upload className="w-4 h-4" /> Upload 834 File
+          </button>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout
       title="834 Member Enrollment"
       icon={<Users className="w-5 h-5 text-blue-500" />}
-    >
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="flex justify-between items-end mb-8 border-b border-gray-200 dark:border-gray-300 dark:border-slate-700 pb-6">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              Benefit Enrollment Maintenance
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 mt-1">
-              Summary of health plan member additions, terminations, and updates
-              from the parsed 834 transaction.
-            </p>
-          </div>
-          <button className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 text-slate-900 dark:text-slate-100 px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition border border-gray-300 dark:border-slate-700">
-            <Download className="w-4 h-4" /> Export CSV
+      actions={
+        <div className="flex gap-2">
+          <button
+            onClick={() => export834CSV(members, `${parsedFile.fileInfo.name}_members.csv`)}
+            className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-2 rounded-lg font-medium border border-gray-200 dark:border-slate-700 transition"
+          >
+            <Download className="w-3.5 h-3.5" /> CSV
+          </button>
+          <button
+            onClick={() => exportJSON(members, `${parsedFile.fileInfo.name}_members.json`)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-2 rounded-lg font-semibold transition"
+          >
+            <Download className="w-3.5 h-3.5" /> JSON
           </button>
         </div>
-
-        {/* Status Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-slate-800 border border-blue-500/30 p-6 rounded-xl shadow-sm flex items-center gap-4">
-            <div className="bg-blue-500/20 text-blue-500 p-3 rounded-xl border border-blue-500/30">
-              <Users className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-1">
-                Total Members
-              </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                5
-              </h3>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-6 rounded-xl shadow-sm flex items-center gap-4">
-            <div className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 p-3 rounded-xl border border-gray-300 dark:border-slate-700">
-              <UserCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-1">
-                Active
-              </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                2
-              </h3>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 border border-green-500/30 p-6 rounded-xl shadow-sm flex items-center gap-4 relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-green-500/10 rounded-full blur-xl"></div>
-            <div className="bg-green-500/20 text-green-500 p-3 rounded-xl border border-green-500/30 z-10">
-              <UserPlus className="w-6 h-6" />
-            </div>
-            <div className="z-10">
-              <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-1">
-                Additions
-              </p>
-              <h3 className="text-2xl font-bold text-green-600 dark:text-green-400">
-                1
-              </h3>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 border border-red-500/30 p-6 rounded-xl shadow-sm flex items-center gap-4 relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-red-500/10 rounded-full blur-xl"></div>
-            <div className="bg-red-500/20 text-red-500 p-3 rounded-xl border border-red-500/30 z-10">
-              <UserMinus className="w-6 h-6" />
-            </div>
-            <div className="z-10">
-              <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-1">
-                Terminations
-              </p>
-              <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">
-                2
-              </h3>
-            </div>
-          </div>
+      }
+    >
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Header */}
+        <div className="mb-7 border-b border-gray-200 dark:border-slate-700 pb-5">
+          <h2 className="text-2xl font-bold tracking-tight">Benefit Enrollment Summary</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+            <span className="font-mono text-blue-600 dark:text-blue-400">{parsedFile.fileInfo.name}</span>
+            {" · "}{members.length} members parsed
+          </p>
         </div>
 
-        {/* Member Table */}
-        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm dark:shadow-none overflow-hidden">
-          <table className="w-full text-left">
-            <thead className="bg-slate-50 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-500 uppercase tracking-wider">
-              <tr>
-                <th className="p-4 w-1/12">Status</th>
-                <th className="p-4 w-3/12">Member Name</th>
-                <th className="p-4 w-2/12">Relationship</th>
-                <th className="p-4 w-3/12">Coverage Type</th>
-                <th className="p-4 w-1/12 text-center">Start Date</th>
-                <th className="p-4 w-1/12 text-center">End Date</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-slate-700/50">
-              {mockMembers.map((member, idx) => {
-                let rowBg = "hover:bg-slate-50 dark:hover:bg-slate-800/30";
-                let statusStyle =
-                  "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900/40 border-gray-300 dark:border-slate-700";
+        {/* Summary cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+          {[
+            { label: "Total Members", value: members.length, icon: Users, color: "blue" },
+            { label: "Subscribers", value: subscribers.length, icon: UserCheck, color: "green" },
+            { label: "Dependents", value: dependents.length, icon: Users, color: "purple" },
+            { label: "Active Enrollments", value: active.length, icon: UserCheck, color: "teal" },
+          ].map((card) => (
+            <div key={card.label} className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-5 rounded-xl shadow-sm">
+              <div className={`w-9 h-9 rounded-lg bg-${card.color}-500/20 flex items-center justify-center mb-3`}>
+                <card.icon className={`w-5 h-5 text-${card.color}-500`} />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{card.value}</h3>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mt-1">{card.label}</p>
+            </div>
+          ))}
+        </div>
 
-                if (member.status === "Added") {
-                  rowBg =
-                    "bg-green-50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20";
-                  statusStyle =
-                    "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40 border-green-300 dark:border-green-800";
-                } else if (member.status === "Terminated") {
-                  rowBg =
-                    "bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20";
-                  statusStyle =
-                    "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/40 border-red-300 dark:border-red-800";
-                }
-
-                return (
-                  <tr key={idx} className={`${rowBg} transition group`}>
-                    <td className="p-4">
-                      <span
-                        className={`px-2 py-1 border text-[10px] uppercase font-bold rounded ${statusStyle}`}
-                      >
-                        {member.status}
-                      </span>
-                    </td>
-                    <td className="p-4 font-bold text-blue-600 dark:text-blue-400 text-sm">
-                      {member.name}
-                    </td>
-                    <td className="p-4 text-slate-700 dark:text-slate-300 text-sm font-medium">
-                      {member.relation}
-                    </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400 text-sm">
-                      {member.coverage}
-                    </td>
-                    <td className="p-4 text-center font-mono text-sm text-slate-700 dark:text-slate-300">
-                      {member.start}
-                    </td>
-                    <td className="p-4 text-center font-mono text-sm text-slate-600 dark:text-slate-500">
-                      {member.end}
-                    </td>
+        {/* Members table */}
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-gray-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 flex items-center gap-2">
+            <Users className="w-5 h-5 text-blue-500" />
+            <h3 className="font-semibold text-slate-900 dark:text-slate-100">Loop 2000 – Member Records ({members.length})</h3>
+          </div>
+          {members.length === 0 ? (
+            <div className="p-12 text-center text-slate-500 dark:text-slate-400">
+              <UserMinus className="w-12 h-12 mx-auto mb-3 opacity-20" />
+              <p>No INS member segments found in this 834 file.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-slate-50 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="p-4">Member ID</th>
+                    <th className="p-4">Last Name</th>
+                    <th className="p-4">First Name</th>
+                    <th className="p-4 text-center">Type</th>
+                    <th className="p-4">Relationship</th>
+                    <th className="p-4 text-center">Gender</th>
+                    <th className="p-4">Birth Date</th>
+                    <th className="p-4">Effective</th>
+                    <th className="p-4">Term Date</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-slate-700/50">
+                  {members.map((m, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
+                      <td className="p-4 font-mono text-sm text-blue-600 dark:text-blue-400 font-bold">{m.memberId || "—"}</td>
+                      <td className="p-4 text-sm text-slate-900 dark:text-slate-100 font-medium">{m.lastName || "—"}</td>
+                      <td className="p-4 text-sm text-slate-900 dark:text-slate-100">{m.firstName || "—"}</td>
+                      <td className="p-4 text-center">
+                        {m.subscriberIndicator === "Y" ? (
+                          <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 text-[10px] font-bold rounded border border-green-300 dark:border-green-800">Subscriber</span>
+                        ) : (
+                          <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-400 text-[10px] font-bold rounded border border-purple-300 dark:border-purple-800">Dependent</span>
+                        )}
+                      </td>
+                      <td className="p-4 text-sm text-slate-600 dark:text-slate-400">{RELATIONSHIP_LABEL[m.relationship] || m.relationship || "—"}</td>
+                      <td className="p-4 text-center"><GenderBadge gender={m.gender} /></td>
+                      <td className="p-4 font-mono text-xs text-slate-600 dark:text-slate-400">{m.birthDate || "—"}</td>
+                      <td className="p-4 font-mono text-xs text-green-600 dark:text-green-400">{m.effectiveDate || "—"}</td>
+                      <td className="p-4 font-mono text-xs text-slate-500 dark:text-slate-400">{m.termDate || "Active"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </Layout>
