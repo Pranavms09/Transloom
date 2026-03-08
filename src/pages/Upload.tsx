@@ -87,12 +87,12 @@ export function UploadRoute() {
       )}
 
       <Layout title="Upload EDI File" icon={<UploadCloud className="w-5 h-5 text-blue-500" />}>
-        <div className="max-w-4xl mx-auto w-full space-y-8 mt-12">
+        <div className="max-w-4xl mx-auto w-full space-y-6 md:space-y-8 mt-6 md:mt-12">
           <PHINotice />
           {/* Header */}
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold tracking-tight mb-2">Secure Processing Gateway</h2>
-            <p className="text-slate-600 dark:text-slate-400">
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-2">Secure Processing Gateway</h2>
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 px-4 md:px-0">
               Upload your X12 transaction files for instant parsing and HIPAA 5010 validation.
             </p>
           </div>
@@ -105,7 +105,7 @@ export function UploadRoute() {
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
               className={cn(
-                "border-2 border-dashed rounded-3xl p-20 text-center cursor-pointer transition-all duration-300 transform hover:scale-[1.02]",
+                "border-2 border-dashed rounded-xl md:rounded-3xl p-6 sm:p-10 md:p-20 text-center cursor-pointer transition-all duration-300 transform hover:scale-[1.02]",
                 isDragging
                   ? "border-blue-500 bg-blue-500/10 scale-[1.02]"
                   : "border-gray-300 dark:border-slate-700 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800/50 bg-white dark:bg-slate-800 shadow-sm"
@@ -118,14 +118,14 @@ export function UploadRoute() {
                 accept=".edi,.txt,.dat,.x12"
                 onChange={handleFileInput}
               />
-              <div className="w-24 h-24 bg-blue-600/10 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:scale-110">
-                <UploadCloud className="w-12 h-12" />
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-blue-600/10 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-8 transition-transform group-hover:scale-110">
+                <UploadCloud className="w-10 h-10 md:w-16 md:h-16" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-slate-100">
-                Drag &amp; Drop your EDI file here
+              <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3 text-slate-900 dark:text-slate-100">
+                Tap to select file or drag here
               </h3>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">
-                or click to browse from your computer
+              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-6 md:mb-8 font-medium">
+                Supports EDI, TXT, DAT, X12
               </p>
               <div className="flex items-center justify-center flex-wrap gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
                 {[".EDI", ".X12", ".DAT", ".TXT"].map((ext) => (

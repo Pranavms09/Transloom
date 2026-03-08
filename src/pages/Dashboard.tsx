@@ -64,8 +64,8 @@ export function Dashboard() {
         </div>
 
         {/* Global Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-blue-500/50 transition duration-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-blue-500/50 transition duration-300">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition duration-300"></div>
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-blue-500/20 rounded-xl">
@@ -73,7 +73,7 @@ export function Dashboard() {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+              <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                 1,248
               </h3>
               <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -85,7 +85,7 @@ export function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-green-500/50 transition duration-300">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-green-500/50 transition duration-300">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-green-500/10 rounded-full blur-2xl group-hover:bg-green-500/20 transition duration-300"></div>
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-green-500/20 rounded-xl">
@@ -93,7 +93,7 @@ export function Dashboard() {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+              <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                 1,102
               </h3>
               <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -110,7 +110,7 @@ export function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-orange-500/50 transition duration-300">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-orange-500/50 transition duration-300">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition duration-300"></div>
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-orange-500/20 rounded-xl">
@@ -118,7 +118,7 @@ export function Dashboard() {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+              <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                 146
               </h3>
               <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -135,7 +135,7 @@ export function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-red-500/50 transition duration-300">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none relative overflow-hidden group hover:border-red-500/50 transition duration-300">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-red-500/10 rounded-full blur-2xl group-hover:bg-red-500/20 transition duration-300"></div>
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-red-500/20 rounded-xl">
@@ -143,7 +143,7 @@ export function Dashboard() {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+              <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                 3,492
               </h3>
               <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -159,7 +159,7 @@ export function Dashboard() {
         {/* Charts & Activity Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Trend Distribution */}
-          <div className="lg:col-span-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm dark:shadow-none p-6 flex flex-col">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none p-4 md:p-6 flex flex-col">
             <h3 className="text-lg font-bold mb-6">
               Validation Error Breakdown
             </h3>
@@ -216,7 +216,7 @@ export function Dashboard() {
           </div>
 
           {/* Type Distribution */}
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm dark:shadow-none p-6 flex flex-col">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none p-4 md:p-6 flex flex-col">
             <h3 className="text-lg font-bold mb-6">File Type Distribution</h3>
             <div className="flex-1 flex flex-col justify-center gap-4">
               {[
@@ -256,8 +256,8 @@ export function Dashboard() {
           </div>
 
           {/* Recent Activity */}
-          <div className="lg:col-span-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm dark:shadow-none overflow-hidden">
-            <div className="p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
+          <div className="lg:col-span-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none overflow-hidden mt-4 md:mt-0">
+            <div className="p-4 md:p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
               <h3 className="text-lg font-bold">Recent Processing Activity</h3>
               <button className="text-sm text-blue-500 hover:text-blue-600 dark:text-blue-400 font-medium">
                 View All

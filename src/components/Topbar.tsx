@@ -21,8 +21,8 @@ export function Topbar({
   actions,
 }: TopbarProps) {
   return (
-    <header className="border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-16 min-h-[4rem] flex items-center justify-between px-8 transition-colors duration-300">
-      <h1 className="text-xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+    <header className="border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 md:px-6 md:py-4 flex items-center justify-between transition-colors duration-300">
+      <h1 className="text-lg sm:text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
         {icon && (
           <span className="text-blue-600 dark:text-blue-500">{icon}</span>
         )}
@@ -66,8 +66,8 @@ export function Topbar({
               {user ? user.role : "Administrator"}
             </span>
           </div>
-          <div className="w-9 h-9 flex-shrink-0 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold bg-cover bg-center">
-            <User className="w-5 h-5" />
+          <div className="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold bg-cover bg-center">
+            <User className="w-4 h-4 md:w-5 md:h-5" />
           </div>
           <button
             onClick={onLogout}

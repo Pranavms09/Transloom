@@ -21,14 +21,14 @@ export function FileAnalysis() {
     return (
       <Layout title="File Analysis" icon={<Activity className="w-5 h-5 text-blue-500" />}>
         <div className="flex flex-col items-center justify-center h-[60vh] text-center max-w-md mx-auto">
-          <Upload className="w-16 h-16 text-slate-300 mb-6" />
+          <Upload className="w-16 h-16 text-slate-300 mb-6 animate-pulse" />
           <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">No File Loaded</h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
             Please upload an EDI file first to view its analysis, parsed structure, and validation results.
           </p>
           <button
             onClick={() => navigate("/upload")}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition"
+            className="w-full md:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition"
           >
             Upload File
           </button>
@@ -81,7 +81,7 @@ export function FileAnalysis() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* File Information */}
-          <div className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 dark:bg-blue-900/10 rounded-full blur-3xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/20 transition-all duration-500" />
              <h3 className="text-lg font-bold mb-5 flex items-center gap-2 relative z-10 text-slate-800 dark:text-slate-200">
               <Info className="w-5 h-5 text-blue-500" />
@@ -102,7 +102,7 @@ export function FileAnalysis() {
           </div>
 
           {/* Transaction Overview */}
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+          <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/10 rounded-full blur-3xl group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/20 transition-all duration-500" />
             <h3 className="text-lg font-bold mb-5 flex items-center gap-2 relative z-10 text-slate-800 dark:text-slate-200">
               <Layers className="w-5 h-5 text-indigo-500" />
@@ -127,7 +127,7 @@ export function FileAnalysis() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Participants */}
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
             <h3 className="text-lg font-bold mb-5 flex items-center gap-2 text-slate-800 dark:text-slate-200">
               <Users className="w-5 h-5 text-emerald-500" />
               Participants
@@ -143,7 +143,7 @@ export function FileAnalysis() {
           </div>
 
           {/* Important Dates (Timeline) */}
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm">
+          <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm">
             <h3 className="text-lg font-bold mb-5 flex items-center gap-2 text-slate-800 dark:text-slate-200">
               <Calendar className="w-5 h-5 text-purple-500" />
               Important Dates
@@ -167,8 +167,8 @@ export function FileAnalysis() {
         </div>
 
         {/* 3. Line Items Table */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
-           <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/20">
+        <div className="bg-white dark:bg-slate-800 rounded-xl md:rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
+           <div className="p-4 md:p-6 border-b border-gray-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/20">
               <h3 className="text-lg font-bold flex items-center gap-2 text-slate-800 dark:text-slate-200">
                 <Package className="w-5 h-5 text-amber-500" />
                 Line Items ({aiAnalysis.lineItems?.length || 0})
@@ -213,14 +213,14 @@ export function FileAnalysis() {
           </h3>
           
           {!aiAnalysis.errors?.length ? (
-            <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50 p-6 rounded-2xl flex items-center justify-center gap-3">
+            <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50 p-4 md:p-6 rounded-xl md:rounded-2xl flex items-center justify-center gap-3">
                <Activity className="w-5 h-5" />
                <p className="font-semibold">No validation errors found! Your file is perfectly formatted.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                {aiAnalysis.errors.map((err, i) => (
-                 <div key={i} className={`p-5 rounded-2xl border ${getSeverityColor(err.severity)} shadow-sm flex flex-col h-full`}>
+                 <div key={i} className={`p-4 md:p-5 rounded-xl md:rounded-2xl border ${getSeverityColor(err.severity)} shadow-sm flex flex-col h-full`}>
                     <div className="flex justify-between items-start mb-3">
                        <span className="inline-block px-2.5 py-1 bg-white/50 dark:bg-black/20 rounded-lg text-xs font-bold uppercase tracking-wider backdrop-blur-sm">
                          {err.severity || "Error"}

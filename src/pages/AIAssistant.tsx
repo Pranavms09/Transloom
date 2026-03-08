@@ -160,7 +160,7 @@ export function AIAssistant() {
           </div>
 
           {/* Input */}
-          <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 relative z-10">
+          <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 relative z-20 sticky bottom-0">
             <form
               onSubmit={handleSend}
               className="flex items-center gap-3 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 p-2 rounded-xl focus-within:border-blue-500 transition shadow-inner"
@@ -171,12 +171,12 @@ export function AIAssistant() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about EDI segments, validation errors, HIPAA rules..."
-                className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-slate-100 px-3 text-sm placeholder:text-slate-400"
+                className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-slate-100 px-3 text-sm placeholder:text-slate-400 h-12 md:h-10"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="bg-blue-600 disabled:bg-slate-200 dark:disabled:bg-slate-700 disabled:text-slate-400 hover:bg-blue-500 text-white p-2 rounded-lg transition"
+                className="bg-blue-600 disabled:bg-slate-200 dark:disabled:bg-slate-700 disabled:text-slate-400 hover:bg-blue-500 text-white p-3 md:p-2 rounded-lg transition"
               >
                 <Send className="w-4 h-4" />
               </button>

@@ -78,7 +78,7 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
       <div className="absolute top-1/2 left-1/3 -translate-x-1/2 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Panel */}
-      <div className="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/60 rounded-3xl p-8 shadow-2xl shadow-black/60">
+      <div className="relative w-full max-w-lg mx-2 md:mx-4 bg-slate-900 border border-slate-700/60 rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-2xl shadow-black/60">
         
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
@@ -149,7 +149,7 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
 
                 {/* Labels */}
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-semibold transition-colors duration-300 ${
+                  <p className={`text-sm md:text-base font-semibold transition-colors duration-300 ${
                     isComplete ? "text-green-400" : isActive ? "text-blue-300" : "text-slate-500"
                   }`}>
                     {step.label}

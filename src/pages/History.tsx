@@ -145,14 +145,14 @@ export function History() {
         )}
 
         {/* History Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-5 xl:gap-6">
           {history.map((entry) => (
             <div
               key={entry.id}
-              className="group bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow-md hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-200 flex flex-col overflow-hidden"
+              className="group bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl md:rounded-2xl shadow-sm hover:shadow-md hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-200 flex flex-col overflow-hidden"
             >
               {/* Card Header */}
-              <div className="p-5 border-b border-gray-100 dark:border-slate-700/50 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-800 flex items-start justify-between gap-3">
+              <div className="p-4 md:p-5 border-b border-gray-100 dark:border-slate-700/50 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-800 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center shrink-0">
                     <FileText className="w-5 h-5 text-purple-600 dark:text-purple-400" />
@@ -176,7 +176,7 @@ export function History() {
               </div>
 
               {/* Card Body */}
-              <div className="p-5 flex-1 space-y-3">
+              <div className="p-4 md:p-5 flex-1 space-y-3">
                 {/* Timestamps */}
                 <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <Calendar className="w-3.5 h-3.5" />
@@ -218,10 +218,10 @@ export function History() {
               </div>
 
               {/* Card Footer - Action */}
-              <div className="px-5 pb-5">
+              <div className="px-4 pb-4 md:px-5 md:pb-5">
                 <button
                   onClick={() => loadEntry(entry)}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold rounded-xl transition"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 py-2.5 px-4 bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold rounded-xl transition mx-auto"
                 >
                   <Eye className="w-4 h-4" />
                   View Full Report
