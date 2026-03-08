@@ -5,7 +5,8 @@ import {
   Activity,
   Bot,
   Settings,
-  Network
+  Network,
+  History,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -24,6 +25,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
         { href: "/dashboard", icon: LayoutDashboard, text: "Dashboard" },
         { href: "/upload", icon: Upload, text: "Upload File" },
         { href: "/analysis", icon: Activity, text: "File Analysis" },
+        { href: "/history", icon: History, text: "History" },
         { href: "/ai", icon: Bot, text: "AI Assistant" },
         { href: "/settings", icon: Settings, text: "Settings" },
       ],

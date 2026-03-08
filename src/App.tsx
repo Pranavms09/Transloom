@@ -6,6 +6,7 @@ import { UploadRoute } from "./pages/Upload";
 import { FileAnalysis } from "./pages/FileAnalysis";
 import { AIAssistant } from "./pages/AIAssistant";
 import { Settings } from "./pages/Settings";
+import { History } from "./pages/History";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/upload" element={<UploadRoute />} />
       <Route path="/analysis" element={<FileAnalysis />} />
+      <Route path="/history" element={<History />} />
       <Route path="/ai" element={<AIAssistant />} />
       <Route path="/settings" element={<Settings />} />
 

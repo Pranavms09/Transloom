@@ -109,7 +109,7 @@ export function AIAssistant() {
         ...prev.filter((m) => !m.isLoading),
         {
           role: "ai",
-          content: `Failed to get response: ${(err as Error).message}. Please check your VITE_OPENAI_API_KEY in .env.local.`,
+          content: `Failed to get response: ${(err as Error).message}. Please ensure the backend is running and GEMINI_API_KEY is configured correctly.`,
         },
       ]);
     } finally {
