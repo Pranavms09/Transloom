@@ -1,11 +1,8 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// OpenAI Client — EDI-Aware Copilot
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { AIAnalysisResult } from "../contexts/EDIContext";
+import { askCopilot as geminiAskCopilot } from "../../services/geminiService";
 
 export interface ChatMessage {
-  role: "user" | "assistant" | "system";
+  role: "user" | "assistant" | "system" | "ai";
   content: string;
 }
 
@@ -14,25 +11,8 @@ export async function askCopilot(
   parsed: AIAnalysisResult | null,
   issues: any[]
 ): Promise<string> {
-  const response = await fetch("/api/ask-copilot", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messages,
-      parsed,
-      issues
-    }),
-  });
-
-  if (!response.ok) {
-    const errBody = await response.json().catch(() => ({}));
-    throw new Error(`Server error ${response.status}: ${errBody.error || "Unknown server error"}`);
-  }
-
-  const data = await response.json();
-  return data.text || "No response received.";
+  // Now calling the service directly in the frontend since Netlify doesn't run the backend
+  return geminiAskCopilot(messages, parsed, issues);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

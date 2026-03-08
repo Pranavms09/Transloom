@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useEDI } from "../contexts/EDIContext";
 import { type AIAnalysisResult } from "../contexts/EDIContext";
+import { analyzeEDI } from "../../services/geminiService";
 
 export function UploadRoute() {
   const [isDragging, setIsDragging] = useState(false);
@@ -46,20 +47,12 @@ export function UploadRoute() {
     setIsDone(false);
 
     try {
-      const formData = new FormData();
-      formData.append("ediFile", file);
-
-      const response = await fetch("/api/analyze-edi", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error || `Server responded with status ${response.status}`);
-      }
-
-      const aiData: AIAnalysisResult = await response.json();
+      // Read file content in the browser
+      const text = await file.text();
+      
+      // Call Gemini directly in the frontend
+      const aiData = await analyzeEDI(text);
+      
       // Store result for after the fade animation completes
       pendingResult.current = { data: aiData, name: file.name };
       setIsDone(true);
