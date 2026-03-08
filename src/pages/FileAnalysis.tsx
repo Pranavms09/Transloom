@@ -1,6 +1,5 @@
 import { Layout } from "../components/Layout";
 import {
-  FileText,
   AlertTriangle,
   Bot,
   Activity,

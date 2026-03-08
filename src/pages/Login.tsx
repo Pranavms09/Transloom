@@ -12,6 +12,8 @@ import { useAuth } from "../hooks/useAuth";
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -23,20 +25,32 @@ export function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setIsSigningIn(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
     } catch (error: any) {
-      alert("Login Failed: " + error.message);
+      setError(error.message || "Login failed. Please check your credentials.");
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    if (isSigningIn) return; // prevent double-click
+    setError(null);
+    setIsSigningIn(true);
     try {
       await signInWithPopup(auth, googleProvider);
       navigate("/dashboard");
     } catch (error: any) {
-      alert("Google Authentication Failed: " + error.message);
+      // cancelled-popup-request fires when popup is closed or duplicate — ignore silently
+      if (error.code !== "auth/cancelled-popup-request" && error.code !== "auth/popup-closed-by-user") {
+        setError(error.message || "Google sign-in failed. Please try again.");
+      }
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
@@ -97,11 +111,16 @@ export function Login() {
             />
           </div>
 
+          {error && (
+            <p className="text-red-400 text-sm text-center -mt-1 mb-1">{error}</p>
+          )}
+
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-gray-200 transition"
+            disabled={isSigningIn}
+            className="w-full bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign In
+            {isSigningIn ? "Signing in..." : "Sign In"}
           </button>
         </form>
 

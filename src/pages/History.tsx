@@ -55,13 +55,13 @@ function getSeverityBadge(errors: HistoryEntry["analysis"]["errors"]) {
 }
 
 export function History() {
-  const { history, historyLoading, removeHistoryEntry, clearHistory, setAIAnalysis } = useEDI();
+  const { history, historyLoading, removeHistoryEntry, clearHistory, loadAnalysisOnly } = useEDI();
   const navigate = useNavigate();
   const [confirmClearAll, setConfirmClearAll] = useState(false);
 
   const loadEntry = (entry: HistoryEntry) => {
-    // Re-hydrate the analysis context from history and go to analysis without re-saving to Firestore
-    setAIAnalysis(entry.analysis, entry.fileName);
+    // Re-hydrate the analysis context from history WITHOUT saving a new Firestore entry
+    loadAnalysisOnly(entry.analysis);
     navigate("/analysis");
   };
 

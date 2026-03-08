@@ -77,6 +77,7 @@ function saveLocal(entries: HistoryEntry[]) {
 interface EDIContextType {
   aiAnalysis: AIAnalysisResult | null;
   setAIAnalysis: (result: AIAnalysisResult, fileName?: string) => void;
+  loadAnalysisOnly: (result: AIAnalysisResult) => void;
   clearData: () => void;
   history: HistoryEntry[];
   historyLoading: boolean;
@@ -87,6 +88,7 @@ interface EDIContextType {
 const EDIContext = createContext<EDIContextType>({
   aiAnalysis: null,
   setAIAnalysis: () => {},
+  loadAnalysisOnly: () => {},
   clearData: () => {},
   history: [],
   historyLoading: false,
@@ -178,11 +180,17 @@ export function EDIProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Use this when loading an existing entry from History — does NOT save to Firestore
+  const loadAnalysisOnly = (result: AIAnalysisResult) => {
+    setAiAnalysisState(result);
+  };
+
   return (
     <EDIContext.Provider
       value={{
         aiAnalysis,
         setAIAnalysis,
+        loadAnalysisOnly,
         clearData,
         history,
         historyLoading,

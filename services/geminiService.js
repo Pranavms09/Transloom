@@ -106,7 +106,7 @@ No EDI file has been uploaded yet.`;
 
       const dataSummary = [
         `Transaction Type: ${parsed.fileType || "Unknown"}`,
-        `Sender: ${participants.sender || fileInfo.senderId || "N/A"} → Receiver: ${participants.receiver || fileInfo.receiverId || "N/A"}`,
+        `Sender: ${participants.sender || fileInfo.senderId || "N/A"} -> Receiver: ${participants.receiver || fileInfo.receiverId || "N/A"}`,
         `Transaction ID: ${fileInfo.transactionId || "N/A"} | Control #: ${fileInfo.interchangeControlNumber || "N/A"}`,
         `Date: ${txOverview.transactionDate || "N/A"} | Currency: ${txOverview.currency || "N/A"}`,
         `PO Number: ${txOverview.purchaseOrderNumber || "N/A"} | Line Items: ${txOverview.totalLineItems ?? (Array.isArray(parsed.lineItems) ? parsed.lineItems.length : 0)}`,
