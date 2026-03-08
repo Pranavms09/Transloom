@@ -50,14 +50,14 @@ function ChatBubble({ msg }: { msg: Message }) {
 }
 
 export function AIAssistant() {
-  const { parsedFile, validationResults } = useEDI();
+  const { aiAnalysis } = useEDI();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const [messages, setMessages] = useState<Message[]>([{
     role: "ai",
-    content: parsedFile
-      ? `Hello! I'm ClaimLens Copilot. I've analyzed your **${parsedFile.fileInfo.type}** file "${parsedFile.fileInfo.name}" (${parsedFile.fileInfo.segmentCount} segments, ${validationResults.filter(i => i.severity === "Critical").length} critical errors). Ask me anything about this file or EDI in general!`
+    content: aiAnalysis
+      ? `Hello! I'm ClaimLens Copilot. I've analyzed your **${aiAnalysis.fileType}** file. Ask me anything about this file or EDI in general!`
       : "Hello! I'm ClaimLens Copilot, your HIPAA X12 expert. Upload an EDI file and I can explain its structure, validate it, and answer any questions about healthcare EDI transactions.",
   }]);
   const [input, setInput] = useState("");
@@ -98,7 +98,7 @@ export function AIAssistant() {
         .map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.content }));
       chatHistory.push({ role: "user", content: text });
 
-      const response = await askCopilot(chatHistory, parsedFile, validationResults);
+      const response = await askCopilot(chatHistory, aiAnalysis, aiAnalysis?.errors || []);
 
       setMessages((prev) => [
         ...prev.filter((m) => !m.isLoading),
@@ -126,7 +126,7 @@ export function AIAssistant() {
     <Layout title="AI Assistant" icon={<Bot className="w-5 h-5 text-blue-500" />}>
       <div className="max-w-5xl mx-auto flex flex-col relative" style={{ height: "calc(100vh - 10rem)" }}>
         {/* No file banner */}
-        {!parsedFile && (
+        {!aiAnalysis && (
           <div className="mb-4 flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
             <Upload className="w-4 h-4 text-blue-500 flex-shrink-0" />
             <p className="text-sm text-blue-700 dark:text-blue-300">

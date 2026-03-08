@@ -2,26 +2,10 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Upload,
-  Layers,
-  Clock,
-  Network,
-  ListTree,
-  ShieldCheck,
-  AlertTriangle,
-  Lightbulb,
-  FileText,
-  DollarSign,
-  Users,
-  Bot,
-  HelpCircle,
-  BarChart2,
-  TrendingUp,
   Activity,
+  Bot,
   Settings,
-  BookOpen,
-  LifeBuoy,
-  FileJson,
-  RefreshCw
+  Network
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -35,90 +19,13 @@ export function Sidebar({ isOpen }: SidebarProps) {
 
   const navGroups = [
     {
-      label: "Main",
-      links: [{ href: "/dashboard/batch", icon: LayoutDashboard, text: "Batch Dashboard" }],
-    },
-    {
-      label: "File Processing",
+      label: "Main Workflow",
       links: [
-        { href: "/upload", icon: Upload, text: "Upload EDI File" },
-        { href: "/upload/batch", icon: Layers, text: "Batch Upload" },
-        { href: "/recent", icon: Clock, text: "Recent Files" },
-      ],
-    },
-    {
-      label: "File Explorer",
-      links: [
-        {
-          href: "/explorer/parsed",
-          icon: FileJson,
-          text: "Parsed Structure Viewer",
-        },
-        { href: "/explorer/tree", icon: ListTree, text: "Segment Tree Viewer" },
-      ],
-    },
-    {
-      label: "Validation",
-      links: [
-        { href: "/validation", icon: ShieldCheck, text: "Validation Results" },
-        {
-          href: "/validation/errors",
-          icon: AlertTriangle,
-          text: "Error Reports",
-        },
-        {
-          href: "/validation/suggestions",
-          icon: Lightbulb,
-          text: "Fix Suggestions",
-        },
-      ],
-    },
-    {
-      label: "Transaction Insights",
-      links: [
-        { href: "/insights/837", icon: FileText, text: "837 Claims Summary" },
-        {
-          href: "/insights/835",
-          icon: DollarSign,
-          text: "835 Payment Summary",
-        },
-        { href: "/insights/834", icon: Users, text: "834 Member Enrollment" },
-        { href: "/reconciliation", icon: RefreshCw, text: "Reconciliation" },
-      ],
-    },
-    {
-      label: "AI Assistant",
-      links: [
-        { href: "/ai/explain", icon: Bot, text: "AI Error Explanation" },
-        { href: "/ai/ask", icon: HelpCircle, text: "Ask About File" },
-      ],
-    },
-    {
-      label: "Analytics",
-      links: [
-        {
-          href: "/analytics/errors",
-          icon: BarChart2,
-          text: "Error Statistics",
-        },
-        {
-          href: "/analytics/trends",
-          icon: TrendingUp,
-          text: "Validation Trends",
-        },
-        {
-          href: "/analytics/metrics",
-          icon: Activity,
-          text: "Processing Metrics",
-        },
-      ],
-    },
-    {
-      label: "System",
-      links: [
+        { href: "/dashboard", icon: LayoutDashboard, text: "Dashboard" },
+        { href: "/upload", icon: Upload, text: "Upload File" },
+        { href: "/analysis", icon: Activity, text: "File Analysis" },
+        { href: "/ai", icon: Bot, text: "AI Assistant" },
         { href: "/settings", icon: Settings, text: "Settings" },
-        { href: "/docs", icon: BookOpen, text: "Documentation" },
-        { href: "/help", icon: LifeBuoy, text: "Help" },
       ],
     },
   ];
