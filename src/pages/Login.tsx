@@ -67,7 +67,7 @@ export function Login() {
             <Languages className="text-slate-900 dark:text-slate-100 w-6 h-6" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Welcome to TransLoom
+            Welcome to ClaimLens
           </h1>
           <p className="text-gray-400 text-sm mt-2">
             Sign in to your PS2 MVP Account
@@ -118,7 +118,7 @@ export function Login() {
           <button
             type="submit"
             disabled={isSigningIn}
-            className="w-full bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold rounded-lg px-4 py-2 hover:bg-slate-800 dark:hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSigningIn ? "Signing in..." : "Sign In"}
           </button>
@@ -134,7 +134,7 @@ export function Login() {
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 bg-[#1a1a1c] border border-gray-700 text-slate-900 dark:text-slate-100 font-medium rounded-lg px-4 py-2 hover:bg-gray-800 transition"
+          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-[#1a1a1c] border border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100 font-medium rounded-lg px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm dark:shadow-none"
         >
           <Chrome className="w-4 h-4" />
           Google

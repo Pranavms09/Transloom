@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Layout } from "../components/Layout";
-import { PHINotice } from "../components/PHINotice";
 import { ProcessingPipeline } from "../components/ProcessingPipeline";
 import {
   UploadCloud, FileType, AlertTriangle, X
@@ -88,7 +87,6 @@ export function UploadRoute() {
 
       <Layout title="Upload EDI File" icon={<UploadCloud className="w-5 h-5 text-blue-500" />}>
         <div className="max-w-4xl mx-auto w-full space-y-6 md:space-y-8 mt-6 md:mt-12">
-          <PHINotice />
           {/* Header */}
           <div className="text-center mb-6 md:mb-10">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-2">Secure Processing Gateway</h2>

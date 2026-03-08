@@ -71,7 +71,7 @@ export function Settings() {
             </div>
             <button
               type="submit"
-              className="bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-gray-200 transition"
+              className="bg-slate-900 dark:bg-white text-white dark:text-black font-semibold rounded-lg px-4 py-2 hover:bg-slate-800 dark:hover:bg-gray-200 transition"
             >
               Update Name
             </button>
@@ -126,7 +126,7 @@ export function Settings() {
           <div className="flex gap-4">
             <button
               onClick={handleExportData}
-              className="bg-gray-800 border border-gray-700 text-slate-900 dark:text-slate-100 font-semibold rounded-lg px-4 py-2 hover:bg-gray-700 transition flex items-center gap-2"
+              className="bg-slate-200 dark:bg-gray-800 border border-slate-300 dark:border-gray-700 text-slate-900 dark:text-slate-100 font-semibold rounded-lg px-4 py-2 hover:bg-slate-300 dark:hover:bg-gray-700 transition flex items-center gap-2"
             >
               <Download className="w-4 h-4" /> Export All Data
             </button>
