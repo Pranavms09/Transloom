@@ -71,17 +71,22 @@ export function FileAnalysis() {
               Clear, human-readable breakdown of the extracted EDI contents.
             </p>
           </div>
-          <div className="flex items-center gap-3">
-             <button
-               onClick={() => window.print()}
-               className="hidden md:flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold border border-gray-200 dark:border-slate-700 shadow-sm transition print:hidden cursor-pointer"
-             >
-               <Download className="w-4 h-4" />
-               Download PDF
-             </button>
-             <div className={`px-4 py-2 rounded-full font-bold text-sm border shadow-sm ${aiAnalysis.errors?.length ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:border-red-800/50' : 'bg-green-50 text-green-600 border-green-200 dark:bg-green-900/20 dark:border-green-800/50'}`}>
-               {aiAnalysis.errors?.length || 0} Issues Found
-             </div>
+          <div className="flex items-center gap-2 print:hidden">
+            {/* Issues badge — compact on mobile, full text on desktop */}
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-xs border shadow-sm ${aiAnalysis.errors?.length ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:border-red-800/50' : 'bg-green-50 text-green-600 border-green-200 dark:bg-green-900/20 dark:border-green-800/50'}`}>
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+              <span>{aiAnalysis.errors?.length || 0}</span>
+              <span className="hidden sm:inline">Issues Found</span>
+            </div>
+            {/* Download PDF — visible on all sizes */}
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs font-bold border border-gray-200 dark:border-slate-700 shadow-sm transition cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">Download PDF</span>
+              <span className="sm:hidden">PDF</span>
+            </button>
           </div>
         </div>
 

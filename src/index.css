@@ -66,3 +66,58 @@ body {
     Arial,
     sans-serif;
 }
+
+/* ===================== PRINT / PDF STYLES ===================== */
+@media print {
+  /* Page setup — A4, small margins for maximum content area */
+  @page {
+    size: A4 portrait;
+    margin: 16mm 12mm;
+  }
+
+  /* Force the entire app shell to be flat so content can flow across pages */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Root flex container: make it block so content flows naturally */
+  #root,
+  .flex.h-screen.overflow-hidden {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* The main content area must not clip */
+  main {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* The scrollable page wrapper that actually contains the analysis cards */
+  .flex-1.overflow-auto {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  /* Prevent individual cards from being split across pages */
+  .rounded-xl, .rounded-2xl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure tables don't get cut off */
+  table { break-inside: auto; }
+  tr    { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Provide breathing room between sections */
+  .space-y-6 > * + * { margin-top: 1.5rem; }
+}
