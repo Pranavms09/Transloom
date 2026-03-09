@@ -1,4 +1,4 @@
-import { Languages, Chrome } from "lucide-react";
+import { Languages, Chrome, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -8,6 +8,7 @@ import {
   googleProvider,
 } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
+import { useTheme } from "../components/theme-provider";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,9 @@ export function Login() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
+
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   useEffect(() => {
     if (user) {
@@ -55,7 +59,18 @@ export function Login() {
   };
 
   return (
-    <div className="bg-background text-foreground h-screen flex items-center justify-center font-sans">
+    <div className="bg-background text-foreground h-screen flex items-center justify-center font-sans relative">
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-4 z-10">
+        <button
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
+          aria-label="Toggle theme"
+        >
+          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+      </div>
+
       <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none">
         <div className="text-center mb-8">
           <div

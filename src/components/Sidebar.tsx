@@ -26,7 +26,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
         { href: "/upload", icon: Upload, text: "Upload File" },
         { href: "/analysis", icon: Activity, text: "File Analysis" },
         { href: "/history", icon: History, text: "History" },
-        { href: "/ai", icon: Bot, text: "AI Assistant" },
+        { href: "/ai", icon: Bot, text: "Claimbot" },
         { href: "/settings", icon: Settings, text: "Settings" },
       ],
     },
@@ -35,7 +35,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 transition-all duration-300 flex flex-col h-full overflow-y-auto hidden md:flex text-slate-600 dark:text-slate-300",
+        "bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 transition-all duration-300 flex flex-col h-full overflow-y-auto hidden md:flex text-slate-600 dark:text-slate-300 print:hidden",
         isOpen ? "w-[260px]" : "w-0 overflow-hidden border-none",
       )}
     >

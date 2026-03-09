@@ -69,7 +69,7 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-950 transition-opacity duration-700 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-slate-950 transition-opacity duration-700 ${
         fading ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
@@ -78,7 +78,7 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
       <div className="absolute top-1/2 left-1/3 -translate-x-1/2 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Panel */}
-      <div className="relative w-full max-w-lg mx-2 md:mx-4 bg-slate-900 border border-slate-700/60 rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-2xl shadow-black/60">
+      <div className="relative w-full max-w-lg mx-2 md:mx-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-xl dark:shadow-2xl dark:shadow-black/60">
         
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
@@ -93,14 +93,14 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
               </span>
             )}
           </div>
-          <h2 className="text-2xl font-bold text-white mb-1">Processing EDI File</h2>
-          <p className="text-slate-400 text-sm">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Processing EDI File</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">
             AI is analyzing your healthcare transaction
           </p>
           {fileName && (
-            <div className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-full">
-              <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-xs text-slate-300 font-mono truncate max-w-[200px]">{fileName}</span>
+            <div className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full">
+              <div className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
+              <span className="text-xs text-slate-600 dark:text-slate-300 font-mono truncate max-w-[200px]">{fileName}</span>
             </div>
           )}
         </div>
@@ -109,9 +109,9 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
         <div className="mb-6">
           <div className="flex justify-between text-xs text-slate-500 mb-2">
             <span>Progress</span>
-            <span className="text-slate-300 font-mono">{progress}%</span>
+            <span className="text-slate-700 dark:text-slate-300 font-mono">{progress}%</span>
           </div>
-          <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-700 ease-out"
               style={{ width: `${progress}%` }}
@@ -130,27 +130,27 @@ export function ProcessingPipeline({ fileName, isDone, onFadeComplete }: Props) 
                 key={idx}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-500 ${
                   isComplete
-                    ? "bg-green-900/10 border-green-700/20"
+                    ? "bg-green-100/50 border-green-200 dark:bg-green-900/10 dark:border-green-700/20"
                     : isActive
-                    ? "bg-blue-900/20 border-blue-700/30"
-                    : "bg-slate-800/40 border-slate-700/20"
+                    ? "bg-blue-100/50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700/30"
+                    : "bg-slate-100/50 border-slate-200 dark:bg-slate-800/40 dark:border-slate-700/20"
                 }`}
               >
                 {/* Icon */}
                 <div className="shrink-0">
                   {isComplete ? (
-                    <CheckCircle2 className="w-5 h-5 text-green-400 transition-all duration-300" />
+                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 transition-all duration-300" />
                   ) : isActive ? (
-                    <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
+                    <Loader2 className="w-5 h-5 text-blue-600 dark:text-blue-400 animate-spin" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-600" />
+                    <Circle className="w-5 h-5 text-slate-300 dark:text-slate-600" />
                   )}
                 </div>
 
                 {/* Labels */}
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm md:text-base font-semibold transition-colors duration-300 ${
-                    isComplete ? "text-green-400" : isActive ? "text-blue-300" : "text-slate-500"
+                    isComplete ? "text-green-700 dark:text-green-400" : isActive ? "text-blue-700 dark:text-blue-300" : "text-slate-500"
                   }`}>
                     {step.label}
                   </p>

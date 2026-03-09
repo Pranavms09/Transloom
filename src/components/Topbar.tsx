@@ -32,7 +32,7 @@ export function Topbar({
   };
 
   return (
-    <header className="border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 md:px-6 md:py-4 flex items-center justify-between transition-colors duration-300">
+    <header className="border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 md:px-6 md:py-4 flex items-center justify-between transition-colors duration-300 print:hidden">
       <h1 className="text-lg sm:text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
         {icon && (
           <span className="text-blue-600 dark:text-blue-500">{icon}</span>

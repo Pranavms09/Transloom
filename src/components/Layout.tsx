@@ -63,7 +63,7 @@ export function Layout({
         isOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
       />
-      <main className="flex-1 overflow-auto flex flex-col transition-colors duration-300">
+      <main className="flex-1 overflow-auto flex flex-col transition-colors duration-300 print:overflow-visible print:h-auto print:bg-white print:text-black">
         <Topbar
           title={title}
           icon={icon}
@@ -73,7 +73,7 @@ export function Layout({
           isDark={isDark}
           actions={actions}
         />
-        <div className="flex-1 overflow-auto p-4 pb-24 md:p-8">{children}</div>
+        <div className="flex-1 overflow-auto p-4 pb-32 md:p-8 print:p-0 print:overflow-visible">{children}</div>
       </main>
       <MobileNav />
     </div>

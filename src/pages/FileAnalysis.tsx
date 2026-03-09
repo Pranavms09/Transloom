@@ -5,6 +5,7 @@ import {
   Activity,
   Layers,
   Upload,
+  Download,
   Calendar,
   Users,
   Info,
@@ -71,6 +72,13 @@ export function FileAnalysis() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+             <button
+               onClick={() => window.print()}
+               className="hidden md:flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold border border-gray-200 dark:border-slate-700 shadow-sm transition print:hidden cursor-pointer"
+             >
+               <Download className="w-4 h-4" />
+               Download PDF
+             </button>
              <div className={`px-4 py-2 rounded-full font-bold text-sm border shadow-sm ${aiAnalysis.errors?.length ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:border-red-800/50' : 'bg-green-50 text-green-600 border-green-200 dark:bg-green-900/20 dark:border-green-800/50'}`}>
                {aiAnalysis.errors?.length || 0} Issues Found
              </div>

@@ -57,8 +57,8 @@ export function AIAssistant() {
   const [messages, setMessages] = useState<Message[]>([{
     role: "ai",
     content: aiAnalysis
-      ? `Hello! I'm ClaimLens Copilot. I've analyzed your **${aiAnalysis.fileType}** file. Ask me anything about this file or EDI in general!`
-      : "Hello! I'm ClaimLens Copilot, your HIPAA X12 expert. Upload an EDI file and I can explain its structure, validate it, and answer any questions about healthcare EDI transactions.",
+      ? `Hello! I'm Claimbot. I've analyzed your **${aiAnalysis.fileType}** file. Ask me anything about this file or EDI in general!`
+      : "Hello! I'm Claimbot, your HIPAA X12 expert. Upload an EDI file and I can explain its structure, validate it, and answer any questions about healthcare EDI transactions.",
   }]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);

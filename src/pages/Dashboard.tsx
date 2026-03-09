@@ -10,9 +10,11 @@ import {
 
 import { useDashboardData } from "../hooks/useDashboardData";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
   const data = useDashboardData();
+  const navigate = useNavigate();
 
   if (data.isLoading) {
     return (
@@ -209,7 +211,7 @@ export function Dashboard() {
           <div className="lg:col-span-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl md:rounded-2xl shadow-sm dark:shadow-none overflow-hidden mt-4 md:mt-0">
             <div className="p-4 md:p-6 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
               <h3 className="text-lg font-bold">Recent Processing Activity</h3>
-              <button className="text-sm text-blue-500 hover:text-blue-600 dark:text-blue-400 font-medium">
+              <button onClick={() => navigate("/history")} className="text-sm text-blue-500 hover:text-blue-600 dark:text-blue-400 font-medium cursor-pointer">
                 View All
               </button>
             </div>

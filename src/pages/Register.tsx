@@ -1,4 +1,4 @@
-import { UserPlus } from "lucide-react";
+import { UserPlus, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
+import { useTheme } from "../components/theme-provider";
 
 export function Register() {
   const [name, setName] = useState("");
@@ -15,6 +16,9 @@ export function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
+
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   useEffect(() => {
     if (user) {
@@ -43,8 +47,19 @@ export function Register() {
   };
 
   return (
-    <div className="bg-background text-foreground h-screen flex items-center justify-center font-sans">
-      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none">
+    <div className="bg-background text-foreground h-screen flex flex-col sm:flex-row items-center justify-center font-sans relative">
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-4 z-10">
+        <button
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
+          aria-label="Toggle theme"
+        >
+          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+      </div>
+
+      <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none relative z-0">
         <div className="text-center mb-8">
           <div
             className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center"
@@ -137,7 +152,7 @@ export function Register() {
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-gray-200 transition mt-6"
+            className="w-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold rounded-lg px-4 py-2 hover:bg-slate-800 dark:hover:bg-gray-200 transition mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Register Profile
           </button>

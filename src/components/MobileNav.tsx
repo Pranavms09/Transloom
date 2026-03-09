@@ -16,11 +16,11 @@ export function MobileNav() {
     { href: "/analysis", icon: Activity, label: "Analysis" },
     { href: "/upload", isCenter: true },
     { href: "/history", icon: History, label: "History" },
-    { href: "/ai", icon: Bot, label: "AI Chat" },
+    { href: "/ai", icon: Bot, label: "Claimbot" },
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 w-full min-h-[64px] pb-safe bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+    <div className="md:hidden fixed bottom-0 left-0 w-full min-h-[64px] pb-safe bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.5)] print:hidden">
       <div className="grid grid-cols-5 items-center h-16 w-full">
         {navItems.map((item) => {
           if (item.isCenter) {
